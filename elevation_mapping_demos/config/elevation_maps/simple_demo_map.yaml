@@ -1,9 +1,11 @@
-length_in_x: 2.5
-length_in_y: 2.5
+length_in_x: 10
+length_in_y: 10
 position_x: 0.0
 position_y: 0.0
-resolution: 0.01
+resolution: 0.08
 min_variance: 0.000009
 max_variance: 0.01
 mahalanobis_distance_threshold: 2.5
 multi_height_noise: 0.0000009
+#visibility_cleanup_rate: 2
+#min_update_rate: 5

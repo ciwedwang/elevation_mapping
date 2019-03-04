@@ -1,9 +1,10 @@
-point_cloud_topic: "/points"
-map_frame_id: "map"
-robot_base_frame_id: "base"
-robot_pose_with_covariance_topic: "/pose"
+point_cloud_topic: "/rslidar_points"
+map_frame_id: "/world"
+robot_base_frame_id: "/base_link"
+robot_pose_with_covariance_topic: "/amcl_pose"
 robot_pose_cache_size: 200
-track_point_frame_id: "base"
+sensor_frame_id: "/rslidar"
+track_point_frame_id: "/rslidar"
 track_point_x: 0.0
 track_point_y: 0.0
 track_point_z: 0.0
