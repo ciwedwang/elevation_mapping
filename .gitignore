@@ -27,3 +27,6 @@
 
 # Sublime
 *.sublime*
+
+# Tar 
+*tar.gz
