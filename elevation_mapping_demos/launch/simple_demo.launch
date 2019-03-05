@@ -1,4 +1,6 @@
 <launch>
+  <!-- TF -->
+   <node pkg="tf2_ros" type="static_transform_publisher" respawn="true" name="laser_tf" args="0.35     0 1.255 -0.01 0.125 0.005 base_link rslidar" />
 
   <!-- Elevation mapping node -->
   <node pkg="elevation_mapping" type="elevation_mapping" name="elevation_mapping" output="screen">
