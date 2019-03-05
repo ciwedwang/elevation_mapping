@@ -1,4 +1,18 @@
 <launch>
+  <!-- rslidar driver -->
+  <param name="use_sim_time" value="true" />
+  <arg name="model" default="RS16" />
+  <arg name="lidar_param_path" default="$(find rslidar_pointcloud)/data/venom/"/>   
+  <node  name="cloud_node" pkg="rslidar_pointcloud" type="cloud_node" output="screen" >
+      <param name="model" value="$(arg model)"/>
+      <param name="curves_path" value="$(arg lidar_param_path)/curves.csv" />
+      <param name="angle_path" value="$(arg lidar_param_path)/angle.csv" />
+      <param name="channel_path" value="$(arg lidar_param_path)/ChannelNum.csv" />
+      <param name="angle_limit_lower_bound" value="2.355" />
+      <param name="angle_limit_higher_bound" value="3.925" />
+      <param name="laser_channel" value="7" />
+  </node>
+
   <!-- TF -->
    <node pkg="tf2_ros" type="static_transform_publisher" respawn="true" name="laser_tf" args="0.35     0 1.255 -0.01 0.125 0.005 base_link rslidar" />
 
