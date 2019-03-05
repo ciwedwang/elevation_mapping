@@ -4,7 +4,7 @@ robot_base_frame_id: "/base_link"
 robot_pose_with_covariance_topic: "/amcl_pose"
 robot_pose_cache_size: 200
 sensor_frame_id: "/rslidar"
-track_point_frame_id: "/rslidar"
+track_point_frame_id: "/base_link"  #Set to a static tf based on base_link frame. For example: rslidar, base_link This is just the tracking point to move the robot-centric elevation map, rather than the publish frame. 
 track_point_x: 0.0
 track_point_y: 0.0
 track_point_z: 0.0
