@@ -30,3 +30,6 @@
 
 # Tar 
 *tar.gz
+
+# vscode
+.vscode
