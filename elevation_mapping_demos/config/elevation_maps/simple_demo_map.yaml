@@ -10,6 +10,6 @@ multi_height_noise: 0.0000009
 fused_map_publishing_rate: 10    #publish rate, set as the rate of rslidar date rate.
 enable_visibility_cleanup: true #Enable/disable a separate thread that removes elements from the map which are not visible anymore
 visibility_cleanup_rate: 2 
-scanning_duration: 8             #The sensor's scanning duration (in s) which is used for the visibility cleanup. Set this roughly to the duration it takes between two consecutive full scans
+scanning_duration: 0.1             #The sensor's scanning duration (in s) which is used for the visibility cleanup. Set this roughly to the duration it takes between two consecutive full scans
 min_update_rate: 5               #Should be less than the rate of rslidar rate.
 relocate_rate: 1                 #Useless for now.
