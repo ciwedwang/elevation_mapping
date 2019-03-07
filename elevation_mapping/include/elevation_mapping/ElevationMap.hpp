@@ -115,6 +115,12 @@ class ElevationMap
   void move(const Eigen::Vector2d& position);
 
   /*!
+   * Move the grid map w.r.t. to the grid map frame.
+   * @param position the new location of the elevation map in the map frame.
+   */
+  void extendMap(const Eigen::Vector2d& position);  
+
+  /*!
    * Publishes the (latest) raw elevation map.
    * @return true if successful.
    */

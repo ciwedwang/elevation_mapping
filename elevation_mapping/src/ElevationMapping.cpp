@@ -404,6 +404,8 @@ bool ElevationMapping::updateMapLocation()
   Position3D position3d;
   convertFromRosGeometryMsg(trackPointTransformed.point, position3d);
   grid_map::Position position = position3d.vector().head(2);
+
+  // map_.extendMap(position);
   map_.move(position);
   return true;
 }
