@@ -6,6 +6,7 @@ Panels:
       Expanded:
         - /Global Options1
         - /Elevation Map1
+        - /GridMap1
         - /Elevation Map Raw1
         - /PointCloud21
       Splitter Ratio: 0.481962
@@ -28,7 +29,7 @@ Panels:
     Experimental: false
     Name: Time
     SyncMode: 0
-    SyncSource: ""
+    SyncSource: PointCloud2
 Visualization Manager:
   Class: ""
   Displays:
@@ -61,8 +62,6 @@ Visualization Manager:
           Value: true
         base_odom:
           Value: true
-        protector2:
-          Value: true
         rslidar:
           Value: true
         steering_link:
@@ -82,8 +81,6 @@ Visualization Manager:
                 {}
               steering_link:
                 base_laser_2:
-                  {}
-                protector2:
                   {}
       Update Interval: 0
       Value: true
@@ -108,6 +105,27 @@ Visualization Manager:
       Unreliable: false
       Use Rainbow: true
       Value: true
+    - Alpha: 1
+      Autocompute Intensity Bounds: true
+      Class: grid_map_rviz_plugin/GridMap
+      Color: 200; 200; 200
+      Color Layer: elevation
+      Color Transformer: GridMapLayer
+      Enabled: false
+      Height Layer: elevation
+      Height Transformer: GridMapLayer
+      History Length: 1
+      Invert Rainbow: false
+      Max Color: 255; 255; 255
+      Max Intensity: 10
+      Min Color: 0; 0; 0
+      Min Intensity: 0
+      Name: GridMap
+      Show Grid Lines: true
+      Topic: /elevation_mapping/elevation_map_raw
+      Unreliable: false
+      Use Rainbow: true
+      Value: false
     - Alpha: 1
       Autocompute Intensity Bounds: false
       Autocompute Value Bounds:
@@ -158,7 +176,7 @@ Visualization Manager:
       Color: 85; 255; 127
       Color Transformer: FlatColor
       Decay Time: 0
-      Enabled: false
+      Enabled: true
       Invert Rainbow: false
       Max Color: 255; 255; 255
       Max Intensity: 176.309
@@ -175,7 +193,7 @@ Visualization Manager:
       Unreliable: false
       Use Fixed Frame: true
       Use rainbow: true
-      Value: false
+      Value: true
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
@@ -200,22 +218,22 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 13.4442
+      Distance: 19.3275
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.06
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: 0.384696
-        Y: 0.891365
-        Z: -0.251224
+        X: -3.14112
+        Y: 0.389798
+        Z: 1.10068
       Name: Current View
       Near Clip Distance: 0.01
-      Pitch: 1.26233
+      Pitch: 0.632332
       Target Frame: base_link
       Value: Orbit (rviz)
-      Yaw: 6.12744
+      Yaw: 1.79425
     Saved: ~
 Window Geometry:
   Displays:

@@ -256,6 +256,10 @@ class ElevationMapping
 
   //! Callback thread for raytracing cleanup.
   boost::thread visibilityCleanupThread_;
+
+  //! If the elevation is robot-centric;
+  bool robot_centric_;
+  
 };
 
 } /* namespace */

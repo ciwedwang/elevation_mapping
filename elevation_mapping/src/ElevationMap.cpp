@@ -488,6 +488,7 @@ void ElevationMap::extendMap(const Eigen::Vector2d& position)
   new_map.setGeometry(rawMap_.getLength(), rawMap_.getResolution(), position);
   
   rawMap_.extendToInclude(new_map);
+  fusedMap_.extendToInclude(new_map);
   // if (rawMap_.move(position, newRegions)) {
   //   ROS_DEBUG("Elevation map has been moved to position (%f, %f).", rawMap_.getPosition().x(), rawMap_.getPosition().y());
   //   if (hasUnderlyingMap_) rawMap_.addDataFrom(underlyingMap_, false, false, true);

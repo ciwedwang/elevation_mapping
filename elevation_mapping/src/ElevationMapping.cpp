@@ -125,6 +125,8 @@ bool ElevationMapping::readParameters()
   nodeHandle_.param("robot_pose_cache_size", robotPoseCacheSize_, 200);
   ROS_ASSERT(robotPoseCacheSize_ >= 0);
 
+  nodeHandle_.param("robot_centric", robot_centric_, true);
+
   double minUpdateRate;
   nodeHandle_.param("min_update_rate", minUpdateRate, 2.0);
   maxNoUpdateDuration_.fromSec(1.0 / minUpdateRate);
@@ -404,9 +406,13 @@ bool ElevationMapping::updateMapLocation()
   Position3D position3d;
   convertFromRosGeometryMsg(trackPointTransformed.point, position3d);
   grid_map::Position position = position3d.vector().head(2);
+  if(!robot_centric_){
+    map_.extendMap(position);
+  }
+  else{
+    map_.move(position);
+  }
 
-  // map_.extendMap(position);
-  map_.move(position);
   return true;
 }
 
