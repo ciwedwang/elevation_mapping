@@ -51,6 +51,14 @@ bool SensorProcessorBase::readParameters()
 
   nodeHandle_.param("sensor_processor/ignore_points_above", ignorePointsUpperThreshold_, std::numeric_limits<double>::infinity());
   nodeHandle_.param("sensor_processor/ignore_points_below", ignorePointsLowerThreshold_, -std::numeric_limits<double>::infinity());
+  nodeHandle_.param("sensor_processor/ignore_points_right", ignorePointsRightThreshold_, -std::numeric_limits<double>::infinity());
+  nodeHandle_.param("sensor_processor/ignore_points_left", ignorePointsLeftThreshold_, std::numeric_limits<double>::infinity());
+  nodeHandle_.param("sensor_processor/ignore_points_front", ignorePointsFrontThreshold_, std::numeric_limits<double>::infinity());
+  nodeHandle_.param("sensor_processor/ignore_points_back", ignorePointsBackThreshold_, -std::numeric_limits<double>::infinity());
+  ROS_INFO("Read parameter %s : %f", "ignorePointsRightThreshold_", ignorePointsRightThreshold_);
+  ROS_INFO("Read parameter %s : %f", "ignorePointsLeftThreshold_", ignorePointsLeftThreshold_);
+  ROS_INFO("Read parameter %s : %f", "ignorePointsFrontThreshold_", ignorePointsFrontThreshold_);
+  ROS_INFO("Read parameter %s : %f", "ignorePointsBackThreshold_", ignorePointsBackThreshold_);
   return true;
 }
 
