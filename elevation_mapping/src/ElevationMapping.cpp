@@ -140,6 +140,7 @@ bool ElevationMapping::readParameters()
   nodeHandle_.param("fused_map_publishing_rate", fusedMapPublishingRate, 1.0);
   if (fusedMapPublishingRate == 0.0) {
     fusedMapPublishTimerDuration_.fromSec(0.0);
+    isContinouslyFusing_ = true;
     ROS_WARN("Rate for publishing the fused map is zero. The fused elevation map will not be published unless the service `triggerFusion` is called.");
   } else if (std::isinf(fusedMapPublishingRate)){
     isContinouslyFusing_ = true;

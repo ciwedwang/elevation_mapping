@@ -2,12 +2,12 @@ length_in_x: 10                 #There is an alloc bug when it is set to 20
 length_in_y: 10
 position_x: 0.0                 #It is only useful if no track_point_frame_id parameter is used
 position_y: 0.0
-resolution: 0.2
+resolution: 0.5
 min_variance: 0.000009
 max_variance: 0.01
 mahalanobis_distance_threshold: 2.5
 multi_height_noise: 0.0000009
-fused_map_publishing_rate: 10    #publish rate, set as the rate of rslidar date rate.
+fused_map_publishing_rate: 0    #publish rate, set as the rate of rslidar date rate.
 enable_visibility_cleanup: false #Enable/disable a separate thread that removes elements from the map which are not visible anymore
 visibility_cleanup_rate: 2 
 scanning_duration: 0.1             #The sensor's scanning duration (in s) which is used for the visibility cleanup. Set this roughly to the duration it takes between two consecutive full scans
