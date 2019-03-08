@@ -78,7 +78,9 @@ bool SensorProcessorBase::process(
 
 	if (!transformPointCloud(pointCloudSensorFrame, pointCloudMapFrame, mapFrameId_)) return false;
   std::vector<pcl::PointCloud<pcl::PointXYZRGB>::Ptr> pointClouds({pointCloudMapFrame, pointCloudSensorFrame});
-  removePointsOutsideLimits(pointCloudMapFrame, pointClouds);
+  // removePointsOutsideLimits(pointCloudMapFrame, pointClouds);
+  removePointsOutsideLimitsXYZ(pointCloudMapFrame, pointClouds);
+  
 	if (!computeVariances(pointCloudSensorFrame, robotPoseCovariance, variances)) return false;
 
 	return true;
@@ -152,6 +154,99 @@ void SensorProcessorBase::removePointsOutsideLimits(
   double relativeUpperThreshold = translationMapToBaseInMapFrame_.z() + ignorePointsUpperThreshold_;
   passThroughFilter.setFilterLimits(relativeLowerThreshold, relativeUpperThreshold);
   pcl::IndicesPtr insideIndeces(new std::vector<int>);
+  passThroughFilter.filter(*insideIndeces);
+
+  for (auto& pointCloud : pointClouds) {
+    pcl::ExtractIndices<pcl::PointXYZRGB> extractIndicesFilter;
+    extractIndicesFilter.setInputCloud(pointCloud);
+    extractIndicesFilter.setIndices(insideIndeces);
+    pcl::PointCloud<pcl::PointXYZRGB> tempPointCloud;
+    extractIndicesFilter.filter(tempPointCloud);
+    pointCloud->swap(tempPointCloud);
+  }
+
+  ROS_DEBUG("removePointsOutsideLimits() reduced point cloud to %i points.", (int) pointClouds[0]->size());
+}
+
+void SensorProcessorBase::removePointsOutsideLimitsXYZ(
+    pcl::PointCloud<pcl::PointXYZRGB>::ConstPtr reference, std::vector<pcl::PointCloud<pcl::PointXYZRGB>::Ptr>& pointClouds)
+{
+  removePointsOutsideLimitsX(reference, pointClouds);
+  removePointsOutsideLimitsY(reference, pointClouds);
+  removePointsOutsideLimitsZ(reference, pointClouds);
+}
+void SensorProcessorBase::removePointsOutsideLimitsZ(
+    pcl::PointCloud<pcl::PointXYZRGB>::ConstPtr reference, std::vector<pcl::PointCloud<pcl::PointXYZRGB>::Ptr>& pointClouds)
+{
+  if (!std::isfinite(ignorePointsLowerThreshold_) && !std::isfinite(ignorePointsUpperThreshold_)) return;
+  ROS_DEBUG("Limiting point cloud to the height interval of [%f, %f] relative to the robot base.", ignorePointsLowerThreshold_, ignorePointsUpperThreshold_);
+
+  pcl::PassThrough<pcl::PointXYZRGB> passThroughFilter(true);
+  passThroughFilter.setInputCloud(reference);
+  passThroughFilter.setFilterFieldName("z"); // TODO: Should this be configurable?
+  double relativeLowerThreshold = translationMapToBaseInMapFrame_.z() + ignorePointsLowerThreshold_;
+  double relativeUpperThreshold = translationMapToBaseInMapFrame_.z() + ignorePointsUpperThreshold_;
+  passThroughFilter.setFilterLimits(relativeLowerThreshold, relativeUpperThreshold);
+  pcl::IndicesPtr insideIndeces(new std::vector<int>);
+  passThroughFilter.filter(*insideIndeces);
+
+  for (auto& pointCloud : pointClouds) {
+    pcl::ExtractIndices<pcl::PointXYZRGB> extractIndicesFilter;
+    extractIndicesFilter.setInputCloud(pointCloud);
+    extractIndicesFilter.setIndices(insideIndeces);
+    pcl::PointCloud<pcl::PointXYZRGB> tempPointCloud;
+    extractIndicesFilter.filter(tempPointCloud);
+    pointCloud->swap(tempPointCloud);
+  }
+
+  ROS_DEBUG("removePointsOutsideLimits() reduced point cloud to %i points.", (int) pointClouds[0]->size());
+}
+
+
+void SensorProcessorBase::removePointsOutsideLimitsY(
+    pcl::PointCloud<pcl::PointXYZRGB>::ConstPtr reference, std::vector<pcl::PointCloud<pcl::PointXYZRGB>::Ptr>& pointClouds)
+{
+  if (!std::isfinite(ignorePointsLowerThreshold_) && !std::isfinite(ignorePointsUpperThreshold_)) return;
+  ROS_DEBUG("Limiting point cloud to the height interval of [%f, %f] relative to the robot base.", ignorePointsLowerThreshold_, ignorePointsUpperThreshold_);
+
+  
+  pcl::PassThrough<pcl::PointXYZRGB> passThroughFilter(false);
+  passThroughFilter.setInputCloud(reference);
+  pcl::IndicesPtr insideIndeces(new std::vector<int>);
+
+  passThroughFilter.setFilterFieldName("y"); // TODO: Should this be configurable?
+  double relativeRightThreshold = translationMapToBaseInMapFrame_.y() + ignorePointsRightThreshold_;
+  double relativeLeftThreshold = translationMapToBaseInMapFrame_.y() + ignorePointsLeftThreshold_;
+  passThroughFilter.setFilterLimits(relativeRightThreshold, relativeLeftThreshold);
+  passThroughFilter.filter(*insideIndeces);
+
+
+  for (auto& pointCloud : pointClouds) {
+    pcl::ExtractIndices<pcl::PointXYZRGB> extractIndicesFilter;
+    extractIndicesFilter.setInputCloud(pointCloud);
+    extractIndicesFilter.setIndices(insideIndeces);
+    pcl::PointCloud<pcl::PointXYZRGB> tempPointCloud;
+    extractIndicesFilter.filter(tempPointCloud);
+    pointCloud->swap(tempPointCloud);
+  }
+
+  ROS_DEBUG("removePointsOutsideLimits() reduced point cloud to %i points.", (int) pointClouds[0]->size());
+}
+
+void SensorProcessorBase::removePointsOutsideLimitsX(
+    pcl::PointCloud<pcl::PointXYZRGB>::ConstPtr reference, std::vector<pcl::PointCloud<pcl::PointXYZRGB>::Ptr>& pointClouds)
+{
+  if (!std::isfinite(ignorePointsLowerThreshold_) && !std::isfinite(ignorePointsUpperThreshold_)) return;
+  ROS_DEBUG("Limiting point cloud to the height interval of [%f, %f] relative to the robot base.", ignorePointsLowerThreshold_, ignorePointsUpperThreshold_);
+
+  
+  pcl::PassThrough<pcl::PointXYZRGB> passThroughFilter(false);
+  passThroughFilter.setInputCloud(reference);
+  pcl::IndicesPtr insideIndeces(new std::vector<int>);
+  passThroughFilter.setFilterFieldName("x"); // TODO: Should this be configurable?
+  double relativeBackThreshold = translationMapToBaseInMapFrame_.x() + ignorePointsBackThreshold_;
+  double relativeFrontThreshold = translationMapToBaseInMapFrame_.x() + ignorePointsFrontThreshold_;
+  passThroughFilter.setFilterLimits(relativeBackThreshold, relativeFrontThreshold);
   passThroughFilter.filter(*insideIndeces);
 
   for (auto& pointCloud : pointClouds) {

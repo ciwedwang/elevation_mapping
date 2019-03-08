@@ -121,6 +121,31 @@ public:
   void removePointsOutsideLimits(pcl::PointCloud<pcl::PointXYZRGB>::ConstPtr reference,
                                  std::vector<pcl::PointCloud<pcl::PointXYZRGB>::Ptr>& pointClouds);
 
+  /*!
+   * Removes points with x-coordinate above a limit in map frame.
+   * @param[in/out] pointCloud the point cloud to be cropped.
+   */
+  void removePointsOutsideLimitsX(pcl::PointCloud<pcl::PointXYZRGB>::ConstPtr reference,
+                                 std::vector<pcl::PointCloud<pcl::PointXYZRGB>::Ptr>& pointClouds);
+  /*!
+   * Removes points with y-coordinate above a limit in map frame.
+   * @param[in/out] pointCloud the point cloud to be cropped.
+   */
+  void removePointsOutsideLimitsY(pcl::PointCloud<pcl::PointXYZRGB>::ConstPtr reference,
+                                 std::vector<pcl::PointCloud<pcl::PointXYZRGB>::Ptr>& pointClouds);
+  /*!
+   * Removes points with z-coordinate above a limit in map frame.
+   * @param[in/out] pointCloud the point cloud to be cropped.
+   */
+  void removePointsOutsideLimitsZ(pcl::PointCloud<pcl::PointXYZRGB>::ConstPtr reference,
+                                 std::vector<pcl::PointCloud<pcl::PointXYZRGB>::Ptr>& pointClouds);
+  /*!
+   * Removes points with x,y,z-coordinate above a limit in map frame.
+   * @param[in/out] pointCloud the point cloud to be cropped.
+   */
+  void removePointsOutsideLimitsXYZ(pcl::PointCloud<pcl::PointXYZRGB>::ConstPtr reference,
+                                 std::vector<pcl::PointCloud<pcl::PointXYZRGB>::Ptr>& pointClouds);
+
   //! ROS nodehandle.
   ros::NodeHandle& nodeHandle_;
 

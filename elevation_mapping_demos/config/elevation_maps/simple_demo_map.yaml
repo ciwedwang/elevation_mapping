@@ -13,4 +13,4 @@ visibility_cleanup_rate: 2
 scanning_duration: 0.1             #The sensor's scanning duration (in s) which is used for the visibility cleanup. Set this roughly to the duration it takes between two consecutive full scans
 min_update_rate: 5               #Should be less than the rate of rslidar rate.
 relocate_rate: 1                 #Useless for now.
-robot_centric: true              #Enable/disable to make the elevation map robot-centric.
+robot_centric: false              #Enable/disable to make the elevation map robot-centric.
