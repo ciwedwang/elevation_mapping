@@ -68,7 +68,7 @@ ElevationMapping::ElevationMapping(ros::NodeHandle& nodeHandle)
     ignoreRobotMotionUpdates_ = true;
   }
 
-  mapUpdateTimer_ = nodeHandle_.createTimer(maxNoUpdateDuration_, &ElevationMapping::mapUpdateTimerCallback, this, true, false);
+  // mapUpdateTimer_ = nodeHandle_.createTimer(maxNoUpdateDuration_, &ElevationMapping::mapUpdateTimerCallback, this, true, false);
 
   // Multi-threading for fusion.
   AdvertiseServiceOptions advertiseServiceOptionsForTriggerFusion = AdvertiseServiceOptions::create<std_srvs::Empty>(
@@ -296,7 +296,8 @@ void ElevationMapping::pointCloudCallback(
 
   // Publish elevation map.
   map_.publishRawElevationMap();
-  if (isContinouslyFusing_ && map_.hasFusedMapSubscribers()) {
+  // if (isContinouslyFusing_ && map_.hasFusedMapSubscribers()) {
+  if (isContinouslyFusing_) {
     map_.fuseAll();
     map_.publishFusedElevationMap();
   }

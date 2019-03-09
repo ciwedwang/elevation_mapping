@@ -521,7 +521,8 @@ bool ElevationMap::publishRawElevationMap()
   rawMapCopy.add("two_sigma_bound", rawMapCopy.get("elevation") + 2.0 * rawMapCopy.get("variance").array().sqrt().matrix());
   grid_map_msgs::GridMap message;
   GridMapRosConverter::toMessage(rawMapCopy, message);
-  elevationMapRawPublisher_.publish(message);
+  if( !(elevationMapRawPublisher_.getNumSubscribers() < 1) )
+    elevationMapRawPublisher_.publish(message);
   ROS_DEBUG("Elevation map raw has been published.");
   return true;
 }
