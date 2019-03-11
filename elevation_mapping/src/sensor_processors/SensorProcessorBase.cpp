@@ -50,15 +50,10 @@ bool SensorProcessorBase::readParameters()
   ROS_ASSERT(!transformListenerTimeout_.isZero());
 
   nodeHandle_.param("sensor_processor/ignore_points_above", ignorePointsUpperThreshold_, std::numeric_limits<double>::infinity());
-  nodeHandle_.param("sensor_processor/ignore_points_below", ignorePointsLowerThreshold_, -std::numeric_limits<double>::infinity());
-  nodeHandle_.param("sensor_processor/ignore_points_right", ignorePointsRightThreshold_, -std::numeric_limits<double>::infinity());
-  nodeHandle_.param("sensor_processor/ignore_points_left", ignorePointsLeftThreshold_, std::numeric_limits<double>::infinity());
-  nodeHandle_.param("sensor_processor/ignore_points_front", ignorePointsFrontThreshold_, std::numeric_limits<double>::infinity());
-  nodeHandle_.param("sensor_processor/ignore_points_back", ignorePointsBackThreshold_, -std::numeric_limits<double>::infinity());
-  ROS_INFO("Read parameter %s : %f", "ignorePointsRightThreshold_", ignorePointsRightThreshold_);
-  ROS_INFO("Read parameter %s : %f", "ignorePointsLeftThreshold_", ignorePointsLeftThreshold_);
-  ROS_INFO("Read parameter %s : %f", "ignorePointsFrontThreshold_", ignorePointsFrontThreshold_);
-  ROS_INFO("Read parameter %s : %f", "ignorePointsBackThreshold_", ignorePointsBackThreshold_);
+  nodeHandle_.param("sensor_processor/ignore_points_below", ignorePointsLowerThreshold_, -std::numeric_limits<double>::infinity());  
+  nodeHandle_.param("sensor_processor/ignore_points_range_x_y", ignorePointsRangeXYThreshold_, -std::numeric_limits<double>::infinity());
+  
+  ROS_INFO("Read parameter %s : %f", "ignorePointsRangeXYThreshold_", ignorePointsRangeXYThreshold_);
   return true;
 }
 
@@ -215,8 +210,8 @@ void SensorProcessorBase::removePointsOutsideLimitsY(
   pcl::IndicesPtr insideIndeces(new std::vector<int>);
 
   passThroughFilter.setFilterFieldName("y"); // TODO: Should this be configurable?
-  double relativeRightThreshold = translationMapToBaseInMapFrame_.y() + ignorePointsRightThreshold_;
-  double relativeLeftThreshold = translationMapToBaseInMapFrame_.y() + ignorePointsLeftThreshold_;
+  double relativeRightThreshold = translationMapToBaseInMapFrame_.y() - ignorePointsRangeXYThreshold_;
+  double relativeLeftThreshold = translationMapToBaseInMapFrame_.y() + ignorePointsRangeXYThreshold_;
   passThroughFilter.setFilterLimits(relativeRightThreshold, relativeLeftThreshold);
   passThroughFilter.filter(*insideIndeces);
 
@@ -244,8 +239,8 @@ void SensorProcessorBase::removePointsOutsideLimitsX(
   passThroughFilter.setInputCloud(reference);
   pcl::IndicesPtr insideIndeces(new std::vector<int>);
   passThroughFilter.setFilterFieldName("x"); // TODO: Should this be configurable?
-  double relativeBackThreshold = translationMapToBaseInMapFrame_.x() + ignorePointsBackThreshold_;
-  double relativeFrontThreshold = translationMapToBaseInMapFrame_.x() + ignorePointsFrontThreshold_;
+  double relativeBackThreshold = translationMapToBaseInMapFrame_.x() - ignorePointsRangeXYThreshold_;
+  double relativeFrontThreshold = translationMapToBaseInMapFrame_.x() + ignorePointsRangeXYThreshold_;
   passThroughFilter.setFilterLimits(relativeBackThreshold, relativeFrontThreshold);
   passThroughFilter.filter(*insideIndeces);
 

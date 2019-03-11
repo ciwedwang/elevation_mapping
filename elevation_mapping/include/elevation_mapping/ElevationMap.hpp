@@ -301,6 +301,8 @@ class ElevationMap
   //! Initial ros time
   ros::Time initialTime_;
 
+
+
   //! Parameters. Are set through the ElevationMapping class.
   double minVariance_;
   double maxVariance_;
@@ -312,6 +314,7 @@ class ElevationMap
   bool enableVisibilityCleanup_;
   double visibilityCleanupDuration_;
   double scanningDuration_;
+  grid_map::Length fuse_length_;
 };
 
 } /* namespace */

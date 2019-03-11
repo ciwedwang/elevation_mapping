@@ -121,7 +121,6 @@ bool ElevationMapping::readParameters()
   nodeHandle_.param("track_point_x", trackPoint_.x(), 0.0);
   nodeHandle_.param("track_point_y", trackPoint_.y(), 0.0);
   nodeHandle_.param("track_point_z", trackPoint_.z(), 0.0);
-
   nodeHandle_.param("robot_pose_cache_size", robotPoseCacheSize_, 200);
   ROS_ASSERT(robotPoseCacheSize_ >= 0);
 
@@ -174,8 +173,12 @@ bool ElevationMapping::readParameters()
   nodeHandle_.param("position_x", position.x(), 0.0);
   nodeHandle_.param("position_y", position.y(), 0.0);
   nodeHandle_.param("resolution", resolution, 0.01);
+  nodeHandle_.param("sensor_processor/ignore_points_range_x_y", ignore_points_range_x_y_, 10.0);
+  fuse_length_(0) = ignore_points_range_x_y_ * 2;
+  fuse_length_(1) = ignore_points_range_x_y_ * 2;
+  map_.fuse_length_ = fuse_length_;
   map_.setGeometry(length, resolution, position);
-
+  
   nodeHandle_.param("min_variance", map_.minVariance_, pow(0.003, 2));
   nodeHandle_.param("max_variance", map_.maxVariance_, pow(0.03, 2));
   nodeHandle_.param("mahalanobis_distance_threshold", map_.mahalanobisDistanceThreshold_, 2.5);
@@ -298,7 +301,8 @@ void ElevationMapping::pointCloudCallback(
   map_.publishRawElevationMap();
   // if (isContinouslyFusing_ && map_.hasFusedMapSubscribers()) {
   if (isContinouslyFusing_) {
-    map_.fuseAll();
+    // map_.fuseAll();
+    map_.fuseArea(robot_position_, fuse_length_);
     map_.publishFusedElevationMap();
   }
 
@@ -407,12 +411,13 @@ bool ElevationMapping::updateMapLocation()
 
   Position3D position3d;
   convertFromRosGeometryMsg(trackPointTransformed.point, position3d);
-  grid_map::Position position = position3d.vector().head(2);
+  robot_position_ = position3d.vector().head(2);
+  // grid_map::Position position = position3d.vector().head(2);
   if(!robot_centric_){
-    map_.extendMap(position);
+    map_.extendMap(robot_position_);
   }
   else{
-    map_.move(position);
+    map_.move(robot_position_);
   }
 
   return true;

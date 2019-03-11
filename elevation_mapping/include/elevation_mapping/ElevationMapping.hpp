@@ -259,7 +259,15 @@ class ElevationMapping
 
   //! If the elevation is robot-centric;
   bool robot_centric_;
-  
+
+  //! Robot postion
+  grid_map::Position robot_position_;
+
+  //! Length of area has to be fused.
+  grid_map::Length fuse_length_;
+
+  //! Length of area has to be fused from config file;
+  double ignore_points_range_x_y_; 
 };
 
 } /* namespace */

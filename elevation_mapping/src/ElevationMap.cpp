@@ -239,7 +239,7 @@ bool ElevationMap::fuse(const grid_map::Index& topLeftIndex, const grid_map::Ind
   const double ellipseExtension = M_SQRT2 * fusedMap_.getResolution();
 
   // Check if there is the need to reset out-dated data.
-  if (fusedMap_.getTimestamp() != rawMapCopy.getTimestamp()) resetFusedData();
+  // if (fusedMap_.getTimestamp() != rawMapCopy.getTimestamp()) resetFusedData();
 
   // Align fused map with raw map.
   if (rawMapCopy.getPosition() != fusedMap_.getPosition()) fusedMap_.move(rawMapCopy.getPosition());
@@ -248,7 +248,7 @@ bool ElevationMap::fuse(const grid_map::Index& topLeftIndex, const grid_map::Ind
   for (SubmapIterator areaIterator(rawMapCopy, topLeftIndex, size); !areaIterator.isPastEnd(); ++areaIterator) {
 
     // Check if fusion for this cell has already been done earlier.
-    if (fusedMap_.isValid(*areaIterator)) continue;
+    // if (fusedMap_.isValid(*areaIterator)) continue;
 
     if (!rawMapCopy.isValid(*areaIterator)) {
       // This is an empty cell (hole in the map).
@@ -486,8 +486,8 @@ void ElevationMap::extendMap(const Eigen::Vector2d& position)
   std::vector<BufferRegion> newRegions;
   
   grid_map::GridMap new_map;
-  // new_map.setGeometry(rawMap_.getLength(), rawMap_.getResolution(), position);
-  new_map.setGeometry(grid_map::Length(20, 20), rawMap_.getResolution(), position);
+  // new_map.setGeometry(rawMap_.getLength(), rawMap_.getResolution(), position);  
+  new_map.setGeometry(fuse_length_, rawMap_.getResolution(), position);
 
   boost::recursive_mutex::scoped_lock scopedLockForRawData(rawMapMutex_);
   // scopedLockForRawData.lock();

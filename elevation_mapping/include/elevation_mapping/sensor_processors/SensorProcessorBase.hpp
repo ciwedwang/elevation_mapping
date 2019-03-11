@@ -185,17 +185,8 @@ public:
   //! Ignore points below this height in map frame.
   double ignorePointsLowerThreshold_;
 
-  //! Ignore points in right beyond this value in map frame.
-  double ignorePointsRightThreshold_;
-
-  //! Ignore points in left beyond this value in map frame.
-  double ignorePointsLeftThreshold_;
-
-  //! Ignore points in front beyond this valuet in map frame.
-  double ignorePointsFrontThreshold_;
-
-  //! Ignore points in back beyond this value in map frame.
-  double ignorePointsBackThreshold_;
+  //! Ignore points with x or y value beyong this threshold.
+  double ignorePointsRangeXYThreshold_;
 
   //! Sensor parameters.
   std::unordered_map<std::string, double> sensorParameters_;
