@@ -63,7 +63,9 @@ public:
 	 */
   bool process(const pcl::PointCloud<pcl::PointXYZRGB>::ConstPtr pointCloudInput,
                const Eigen::Matrix<double, 6, 6>& robotPoseCovariance,
-               const pcl::PointCloud<pcl::PointXYZRGB>::Ptr pointCloudOutput, Eigen::VectorXf& variances);
+               const pcl::PointCloud<pcl::PointXYZRGB>::Ptr pointCloudOutput, 
+               Eigen::VectorXf& variances,
+               bool calculate_variance = true);
 
   typedef std::unique_ptr<SensorProcessorBase> Ptr;
 

@@ -61,7 +61,8 @@ bool SensorProcessorBase::process(
 		const pcl::PointCloud<pcl::PointXYZRGB>::ConstPtr pointCloudInput,
 		const Eigen::Matrix<double, 6, 6>& robotPoseCovariance,
 		const pcl::PointCloud<pcl::PointXYZRGB>::Ptr pointCloudMapFrame,
-		Eigen::VectorXf& variances)
+		Eigen::VectorXf& variances, 
+    bool calculate_variance)
 {
   ros::Time timeStamp;
   timeStamp.fromNSec(1000 * pointCloudInput->header.stamp);
@@ -75,9 +76,9 @@ bool SensorProcessorBase::process(
   std::vector<pcl::PointCloud<pcl::PointXYZRGB>::Ptr> pointClouds({pointCloudMapFrame, pointCloudSensorFrame});
   // removePointsOutsideLimits(pointCloudMapFrame, pointClouds);
   removePointsOutsideLimitsXYZ(pointCloudMapFrame, pointClouds);
+  variances.resize(pointCloudMapFrame->size());
+	if (calculate_variance && !computeVariances(pointCloudSensorFrame, robotPoseCovariance, variances)) return false;
   
-	if (!computeVariances(pointCloudSensorFrame, robotPoseCovariance, variances)) return false;
-
 	return true;
 }
 

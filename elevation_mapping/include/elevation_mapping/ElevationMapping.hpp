@@ -223,6 +223,9 @@ class ElevationMapping
   //! If true, robot motion updates are ignored.
   bool ignoreRobotMotionUpdates_;
 
+  //! If true, robot motion updates are ignored.
+  bool ignoreRangeMeasurementUpdates_;
+
   //! Time of the last point cloud update.
   ros::Time lastPointCloudUpdateTime_;
 
@@ -268,6 +271,7 @@ class ElevationMapping
 
   //! Length of area has to be fused from config file;
   double ignore_points_range_x_y_; 
+
 };
 
 } /* namespace */

@@ -123,8 +123,10 @@ bool ElevationMapping::readParameters()
   nodeHandle_.param("track_point_z", trackPoint_.z(), 0.0);
   nodeHandle_.param("robot_pose_cache_size", robotPoseCacheSize_, 200);
   ROS_ASSERT(robotPoseCacheSize_ >= 0);
-
+  nodeHandle_.param("ignore_measurement_update", ignoreRangeMeasurementUpdates_, false);
+  nodeHandle_.param("ignore_model_update", ignoreRobotMotionUpdates_, false);
   nodeHandle_.param("robot_centric", robot_centric_, true);
+
 
   double minUpdateRate;
   nodeHandle_.param("min_update_rate", minUpdateRate, 2.0);
@@ -284,7 +286,7 @@ void ElevationMapping::pointCloudCallback(
   PointCloud<PointXYZRGB>::Ptr pointCloudProcessed(new PointCloud<PointXYZRGB>);
   Eigen::VectorXf measurementVariances;
   if (!sensorProcessor_->process(pointCloud, robotPoseCovariance, pointCloudProcessed,
-                                 measurementVariances)) {
+                                 measurementVariances, !ignoreRangeMeasurementUpdates_)) {
     ROS_ERROR("Point cloud could not be processed.");
     resetMapUpdateTimer();
     return;
