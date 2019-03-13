@@ -269,9 +269,6 @@ class ElevationMapping
   //! Length of area has to be fused.
   grid_map::Length fuse_length_;
 
-  //! Length of area has to be fused from config file;
-  double ignore_points_range_x_y_; 
-
 };
 
 } /* namespace */

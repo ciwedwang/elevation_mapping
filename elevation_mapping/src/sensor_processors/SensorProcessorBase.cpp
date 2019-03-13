@@ -186,12 +186,12 @@ void SensorProcessorBase::removePointsOutsideLimitsByCropBox(
   Eigen::Vector4f max_point;
 
   //1. filter too far
-  min_point = Eigen::Vector4f(translationMapToBaseInMapFrame_.x() - ignorePointsOutsideXThreshold_,
-                              translationMapToBaseInMapFrame_.y() - ignorePointsOutsideYThreshold_,
+  min_point = Eigen::Vector4f(translationMapToBaseInMapFrame_.x() - ignorePointsOutsideXThreshold_ / 2,
+                              translationMapToBaseInMapFrame_.y() - ignorePointsOutsideYThreshold_ / 2,
                               translationMapToBaseInMapFrame_.z() + ignorePointsLowerThreshold_,
                               1.0);
-  max_point = Eigen::Vector4f(translationMapToBaseInMapFrame_.x() + ignorePointsOutsideXThreshold_,
-                              translationMapToBaseInMapFrame_.y() + ignorePointsOutsideYThreshold_,
+  max_point = Eigen::Vector4f(translationMapToBaseInMapFrame_.x() + ignorePointsOutsideXThreshold_ / 2,
+                              translationMapToBaseInMapFrame_.y() + ignorePointsOutsideYThreshold_ / 2,
                               translationMapToBaseInMapFrame_.z() + ignorePointsUpperThreshold_,
                               1.0);
   crop_box_filter.setMin(min_point);

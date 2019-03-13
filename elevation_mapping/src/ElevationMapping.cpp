@@ -175,10 +175,9 @@ bool ElevationMapping::readParameters()
   nodeHandle_.param("position_x", position.x(), 0.0);
   nodeHandle_.param("position_y", position.y(), 0.0);
   nodeHandle_.param("resolution", resolution, 0.01);
-  nodeHandle_.param("sensor_processor/ignore_points_range_x_y", ignore_points_range_x_y_, 10.0);
-  fuse_length_(0) = ignore_points_range_x_y_ * 2;
-  fuse_length_(1) = ignore_points_range_x_y_ * 2;
-  map_.fuse_length_ = fuse_length_;
+  
+  fuse_length_ = length;
+  map_.fuse_length_ = length;
   map_.setGeometry(length, resolution, position);
   
   nodeHandle_.param("min_variance", map_.minVariance_, pow(0.003, 2));

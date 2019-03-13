@@ -480,30 +480,16 @@ void ElevationMap::move(const Eigen::Vector2d& position)
 }
 
 void ElevationMap::extendMap(const Eigen::Vector2d& position)
-{
-
-  
-  std::vector<BufferRegion> newRegions;
-  
+{  
+  std::vector<BufferRegion> newRegions;  
   grid_map::GridMap new_map;
-  // new_map.setGeometry(rawMap_.getLength(), rawMap_.getResolution(), position);  
   new_map.setGeometry(fuse_length_, rawMap_.getResolution(), position);
-
   boost::recursive_mutex::scoped_lock scopedLockForRawData(rawMapMutex_);
-  // scopedLockForRawData.lock();
   rawMap_.extendToInclude(new_map);
-  // scopedLockForRawData.unlock();
-
+  scopedLockForRawData.unlock();
   boost::recursive_mutex::scoped_lock scopedLockForFusedData(fusedMapMutex_);
-  // scopedLockForFusedData.lock();
   fusedMap_.extendToInclude(new_map);
-  // scopedLockForFusedData.unlock();
-  // if (rawMap_.move(position, newRegions)) {
-  //   ROS_DEBUG("Elevation map has been moved to position (%f, %f).", rawMap_.getPosition().x(), rawMap_.getPosition().y());
-  //   if (hasUnderlyingMap_) rawMap_.addDataFrom(underlyingMap_, false, false, true);
-  // }
-
-
+  scopedLockForFusedData.unlock();
 }
 
 bool ElevationMap::publishRawElevationMap()
