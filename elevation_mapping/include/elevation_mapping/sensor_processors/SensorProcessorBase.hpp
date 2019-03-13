@@ -124,28 +124,10 @@ public:
                                  std::vector<pcl::PointCloud<pcl::PointXYZRGB>::Ptr>& pointClouds);
 
   /*!
-   * Removes points with x-coordinate above a limit in map frame.
+   * Removes points too far or too near by a CropBox.
    * @param[in/out] pointCloud the point cloud to be cropped.
    */
-  void removePointsOutsideLimitsX(pcl::PointCloud<pcl::PointXYZRGB>::ConstPtr reference,
-                                 std::vector<pcl::PointCloud<pcl::PointXYZRGB>::Ptr>& pointClouds);
-  /*!
-   * Removes points with y-coordinate above a limit in map frame.
-   * @param[in/out] pointCloud the point cloud to be cropped.
-   */
-  void removePointsOutsideLimitsY(pcl::PointCloud<pcl::PointXYZRGB>::ConstPtr reference,
-                                 std::vector<pcl::PointCloud<pcl::PointXYZRGB>::Ptr>& pointClouds);
-  /*!
-   * Removes points with z-coordinate above a limit in map frame.
-   * @param[in/out] pointCloud the point cloud to be cropped.
-   */
-  void removePointsOutsideLimitsZ(pcl::PointCloud<pcl::PointXYZRGB>::ConstPtr reference,
-                                 std::vector<pcl::PointCloud<pcl::PointXYZRGB>::Ptr>& pointClouds);
-  /*!
-   * Removes points with x,y,z-coordinate above a limit in map frame.
-   * @param[in/out] pointCloud the point cloud to be cropped.
-   */
-  void removePointsOutsideLimitsXYZ(pcl::PointCloud<pcl::PointXYZRGB>::ConstPtr reference,
+  void removePointsOutsideLimitsByCropBox(pcl::PointCloud<pcl::PointXYZRGB>::ConstPtr reference,
                                  std::vector<pcl::PointCloud<pcl::PointXYZRGB>::Ptr>& pointClouds);
 
   //! ROS nodehandle.
@@ -188,7 +170,13 @@ public:
   double ignorePointsLowerThreshold_;
 
   //! Ignore points with x or y value beyong this threshold.
-  double ignorePointsRangeXYThreshold_;
+  double ignorePointsOutsideXThreshold_;
+
+  //! Ignore points with x or y value beyong this threshold.
+  double ignorePointsOutsideYThreshold_;
+
+  //! Ignore points with x or y value below this threshold.
+  double ignorePointsInsideXYThreshold_;
 
   //! Sensor parameters.
   std::unordered_map<std::string, double> sensorParameters_;
